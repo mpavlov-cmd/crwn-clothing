@@ -1,5 +1,11 @@
 import {initializeApp} from 'firebase/app'
-import {getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword} from 'firebase/auth'
+import {
+    GoogleAuthProvider,
+    getAuth,
+    signInWithPopup,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+} from 'firebase/auth'
 import {doc, getDoc, setDoc, getFirestore} from 'firebase/firestore'
 
 
@@ -35,8 +41,15 @@ class FireBaseAuth {
         this._auth = auth
     }
 
-    signInWithGooglePopUp() {
+    signInUserWithGooglePopUp() {
         return signInWithPopup(this._auth, this._provider);
+    }
+
+    async signInUserWithEmailAndPassword(email, password) {
+        if (!email || !password) {
+            return;
+        }
+        return await signInWithEmailAndPassword(this._auth, email, password)
     }
 
     async createAuthUserWithEmailAndPassword(email, password) {
