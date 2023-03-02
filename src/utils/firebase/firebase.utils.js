@@ -4,7 +4,9 @@ import {
     getAuth,
     signInWithPopup,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth'
 import {doc, getDoc, setDoc, getFirestore} from 'firebase/firestore'
 
@@ -19,13 +21,13 @@ class FireBaseApp {
         this._firebaseApp = initializeApp(this._firebaseConfig)
     }
 
-    get firebaseConfig() {
-        return this._firebaseConfig;
-    }
+    // get firebaseConfig() {
+    //     return this._firebaseConfig;
+    // }
 
-    get firebaseApp() {
-        return this._firebaseApp;
-    }
+    // get firebaseApp() {
+    //     return this._firebaseApp;
+    // }
 }
 
 class FireBaseAuth {
@@ -58,6 +60,14 @@ class FireBaseAuth {
         }
         return await createUserWithEmailAndPassword(this._auth, email, password);
     }
+
+    async signOutUser() {
+        return await signOut(this._auth);
+    }
+
+     onUserAuthStateChanged(callback) {
+        return onAuthStateChanged(this._auth, callback);
+    }
 }
 
 class FireBaseRepository {
@@ -75,13 +85,13 @@ class FireBaseRepository {
         }
 
         // Document reference
-        const userDocRef =  await doc(this._firestore, 'users', userAuth.user.uid);
+        const userDocRef =  await doc(this._firestore, 'users', userAuth.uid);
 
         // Document snapshot, allows to check if document exists
         const userSnapshot = await getDoc(userDocRef);
 
         if (!userSnapshot.exists()) {
-            const {displayName, email} = userAuth.user;
+            const {displayName, email} = userAuth;
             const createdAt = new Date();
 
             try {

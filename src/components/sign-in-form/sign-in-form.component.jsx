@@ -2,7 +2,7 @@ import './sign-in-form.styles.scss';
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import {useState} from "react";
-import {fireBaseAuth, fireStoreRepo} from "../../utils/firebase/firebase.utils";
+import {fireBaseAuth} from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
     email: '',
@@ -43,10 +43,7 @@ const SignInForm = () => {
 
     const logGoogleUser = async (event) => {
         event.preventDefault();
-
-        const response = await fireBaseAuth.signInUserWithGooglePopUp();
-        const userDocRef = await fireStoreRepo.createUserDocumentFromAuth(response);
-        console.log(userDocRef);
+        await fireBaseAuth.signInUserWithGooglePopUp();
     }
 
     return (

@@ -41,7 +41,7 @@ const SignUpForm = () => {
             const createUserResult = await fireBaseAuth.createAuthUserWithEmailAndPassword(email, password);
             console.log(createUserResult);
 
-            const storedUserRef = await fireStoreRepo.createUserDocumentFromAuth(createUserResult, {
+            const storedUserRef = await fireStoreRepo.createUserDocumentFromAuth(createUserResult.user, {
                 displayName: displayName
             });
             console.log(storedUserRef);
