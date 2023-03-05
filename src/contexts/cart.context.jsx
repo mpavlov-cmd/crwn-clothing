@@ -32,6 +32,26 @@ export class Cart {
     }
 
     removeItem(id) {
+        const cartItem = this._cartProducts.get(id);
+        if (!cartItem) {
+            return;
+        }
+
+        if (cartItem.quantity > 1) {
+            cartItem.quantity--;
+        } else {
+            this._cartProducts.delete(id);
+        }
+
+        this._cartStateControl(this.countItems());
+    }
+
+    clearItem(id) {
+        const cartItem = this._cartProducts.get(id);
+        if (!cartItem) {
+            return;
+        }
+
         this._cartProducts.delete(id);
         this._cartStateControl(this.countItems());
     }
@@ -43,6 +63,12 @@ export class Cart {
     countItems() {
         return this.listItems().reduce((acc, item) => {
             return item.quantity && acc + item.quantity;
+        }, 0)
+    }
+
+    total() {
+        return this.listItems().reduce((acc, item) => {
+            return acc + item.quantity * item.price;
         }, 0)
     }
 }
