@@ -31,7 +31,7 @@ const SignInForm = () => {
             } else {
                 alert("Error:" + error.message);
             }
-        }
+        } 
 
         resetFormFields();
     }
