@@ -41,14 +41,9 @@ export class Cart {
     }
 
     countItems() {
-        let count = 0;
-        this._cartProducts.forEach((item) => {
-            const quantity = item.quantity;
-            if (quantity) {
-                count = count + quantity;
-            }
-        })
-        return count;
+        return this.listItems().reduce((acc, item) => {
+            return item.quantity && acc + item.quantity;
+        }, 0)
     }
 }
 
