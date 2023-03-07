@@ -1,14 +1,14 @@
 import {initializeApp} from 'firebase/app'
 import {
-    GoogleAuthProvider,
-    getAuth,
-    signInWithPopup,
     createUserWithEmailAndPassword,
+    getAuth,
+    GoogleAuthProvider,
+    onAuthStateChanged,
     signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
+    signInWithPopup,
+    signOut
 } from 'firebase/auth'
-import {doc, getDoc, setDoc, getFirestore} from 'firebase/firestore'
+import {collection, doc, getDoc, getDocs, getFirestore, setDoc, query, writeBatch} from 'firebase/firestore'
 
 
 class FireBaseApp {
@@ -109,6 +109,47 @@ class FireBaseRepository {
 
         return userDocRef;
     }
+
+    /*jshint node:true, unused:false */
+    async addCollectionAndDocuments(collectionKey, objectsToAdd) {
+        const collectionRef = collection(this._firestore, collectionKey)
+        const batch = writeBatch(this._firestore);
+
+        objectsToAdd.forEach((object) => {
+            const docRef = doc(collectionRef, object.title.toLowerCase());
+            batch.set(docRef, object);
+        })
+
+        await batch.commit();
+        console.log("Done!");
+    }
+
+    async getCategoriesAndDocuments() {
+
+        // Create a collection ref and create a query out of it
+        const collectionRef = collection(this._firestore, 'categories')
+        const firebaseQuery = query(collectionRef);
+
+        // Get a collection snapshot using query
+        const collectionSnapshot = await getDocs(firebaseQuery);
+        /*
+             Map document to object structure
+             {
+                title: [
+                    {},
+                    {},
+                    ...
+                ]
+
+             }
+         */
+        return collectionSnapshot.docs.reduce((accum, docSnapshot) => {
+            const {title, items} = docSnapshot.data();
+            accum[title.toLowerCase()] = items;
+            return accum;
+        }, {});
+    }
+
 }
 
 
