@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import {fireStoreRepo} from "../utils/firebase/firebase.utils";
 
-class ProductStore {
+export class ProductStore {
 
     _products = new Map();
     _productsArray;
@@ -35,7 +35,9 @@ class CategoryStore {
     }
 
     getCategoryByName(name) {
-        return this._categories.get(name);
+        const productStore = this._categories.get(name);
+        console.log("No category found with name: " + name);
+        return productStore ? productStore : new ProductStore([]);
     }
 
     listCategoryNames() {

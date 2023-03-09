@@ -1,11 +1,11 @@
-import './category-item.styles.scss'
+import './directory-item.styles.scss'
 
-const CategoryItem = (props) => {
+const DirectoryItem = (props) => {
 
     const {id, title, imageUrl} = props.category;
 
     return (
-        <div className="category-container" id={`category-${id}`}>
+        <div className="directory-item-container" id={`category-${id}`}>
             <div
                 className='background-image'
                 // Style prop takes an object where key-value pairs are css
@@ -13,7 +13,7 @@ const CategoryItem = (props) => {
                     backgroundImage: `url(${imageUrl})`
                 }}
             ></div>
-            <div className="category-body-container">
+            <div className="directory-item-body-container">
                 <h2>{title}</h2>
                 <p>Shop Now</p>
             </div>
@@ -22,4 +22,4 @@ const CategoryItem = (props) => {
 
 }
 
-export default CategoryItem;
+export default DirectoryItem;
