@@ -18,7 +18,7 @@ const Category = () => {
     }, [categories, category])
 
     return (
-        <div>
+        <div className='category-wrapper'>
             <h2>
                 <span className='category-title'>{category.toUpperCase()}</span>
             </h2>
