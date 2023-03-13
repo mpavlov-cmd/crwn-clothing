@@ -1,8 +1,9 @@
-import './category.styles.scss';
+import './category.styles';
 import {useParams} from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
 import {CategoriesContext, ProductStore} from "../../contexts/categories.context";
 import ProductCard from "../../components/product-card/product-card.component";
+import {CategoryContainer, CategoryRootContainer, CategoryTitle} from "./category.styles";
 
 const Category = () => {
 
@@ -18,17 +19,17 @@ const Category = () => {
     }, [categories, category])
 
     return (
-        <div className='category-wrapper'>
+        <CategoryRootContainer className='category-root-container'>
             <h2>
-                <span className='category-title'>{category.toUpperCase()}</span>
+                <CategoryTitle className='category-title'>{category.toUpperCase()}</CategoryTitle>
             </h2>
-            <div className='category-container'>
+            <CategoryContainer className='category-container'>
                 {
                     productStore && productStore.getProductsArray().map((product) =>
                         <ProductCard key={product.id} product={product}/>)
                 }
-            </div>
-        </div>
+            </CategoryContainer>
+        </CategoryRootContainer>
     )
 }
 

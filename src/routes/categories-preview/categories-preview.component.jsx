@@ -1,15 +1,16 @@
 import {useContext} from "react";
 import {CategoriesContext} from "../../contexts/categories.context";
 
-import './categories-preview.styles.scss'
-import CategoryPreview from "../../components/categroy-preview/categroty-preview.component";
+import './categories-preview.styles'
+import CategoryPreview from "../../components/categroy-preview/category-preview.component";
+import {CategoryPreviewContainer} from "./categories-preview.styles";
 
 const CategoriesPreview = () => {
 
     const {categories} = useContext(CategoriesContext);
     const categoryNames = categories.listCategoryNames()
     return (
-        <div className='category-preview-container'>
+        <CategoryPreviewContainer className='category-preview-container'>
             {
                 categoryNames.map((categoryName, index) => {
                     const categoryItems = categories.getCategoryByName(categoryName);
@@ -23,7 +24,7 @@ const CategoriesPreview = () => {
                     )
                 })
             }
-        </div>
+        </CategoryPreviewContainer>
     )
 }
 
