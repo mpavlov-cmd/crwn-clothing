@@ -23,10 +23,10 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const authResult = await fireBaseAuth.signInUserWithEmailAndPassword(email, password);
-            console.log(authResult)
+            await fireBaseAuth.signInUserWithEmailAndPassword(email, password);
+            // console.log(authResult)
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             if (error.code === "auth/wrong-password") {
                 alert("Incorrect password for email");
             } else {

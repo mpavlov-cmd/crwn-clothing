@@ -30,7 +30,7 @@ const SignUpForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Submit", event);
+        // console.log("Submit", event);
 
         // Validate password
         if (password !== confirmPassword) {
@@ -40,12 +40,12 @@ const SignUpForm = () => {
 
         try {
             const createUserResult = await fireBaseAuth.createAuthUserWithEmailAndPassword(email, password);
-            console.log(createUserResult);
+            // console.log(createUserResult);
 
-            const storedUserRef = await fireStoreRepo.createUserDocumentFromAuth(createUserResult.user, {
+            await fireStoreRepo.createUserDocumentFromAuth(createUserResult.user, {
                 displayName: displayName
             });
-            console.log(storedUserRef);
+            // console.log(storedUserRef);
 
             resetFormFields();
 

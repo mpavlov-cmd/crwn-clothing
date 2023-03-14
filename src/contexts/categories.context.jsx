@@ -31,7 +31,7 @@ class CategoryStore {
             this._categories.set(key, new ProductStore(value))
         }
 
-        console.log(this);
+        // console.log(this);
     }
 
     getCategoryByName(name) {
@@ -64,9 +64,6 @@ export const CategoriesProvider = ({children}) => {
             }
             // Run async function
             getCategoriesFunction().then((categoriesAndProducts) => {
-
-                console.log();
-
                 const fetchedCategories = new CategoryStore(categoriesAndProducts)
                 setCategories(fetchedCategories);
             });

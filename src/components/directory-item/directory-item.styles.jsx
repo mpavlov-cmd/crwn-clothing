@@ -17,6 +17,7 @@ export const DirectoryItemBodyContainer = styled.div`
     margin: 0 6px 0;
     font-size: 22px;
     color: #4a4a4a;
+    text-transform: uppercase;
   }
 
   p {
@@ -31,7 +32,7 @@ export const BackgroundImage = styled.div`
   height: 100%;
   background-size: cover;
   background-position: center;
-  
+  // Allows to read properties from the component
   background-image: ${({imageUrl}) => `url(${imageUrl})`};
 `
 

@@ -121,7 +121,7 @@ class FireBaseRepository {
         })
 
         await batch.commit();
-        console.log("Done!");
+        // console.log("Done!");
     }
 
     async getCategoriesAndDocuments() {

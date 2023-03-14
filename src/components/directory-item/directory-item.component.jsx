@@ -1,12 +1,20 @@
 import './directory-item.styles'
 import {BackgroundImage, DirectoryItemBodyContainer, DirectoryItemContainer} from "./directory-item.styles";
+import {useNavigate} from "react-router-dom";
 
 const DirectoryItem = (props) => {
 
-    const {id, title, imageUrl} = props.category;
+    const {id, title, imageUrl, route} = props.category;
+    const navigate = useNavigate();
+
+    const onNavigateHandler = () => navigate(route);
 
     return (
-        <DirectoryItemContainer className="directory-item-container" id={`category-${id}`}>
+        <DirectoryItemContainer
+            className="directory-item-container"
+            id={`category-${id}`}
+            onClick={onNavigateHandler}
+        >
             <BackgroundImage
                 className='background-image'
                 // Passing data to the css-in-js as a prop

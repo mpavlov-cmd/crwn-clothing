@@ -21,7 +21,7 @@ export const UserProvider = ({children}) => {
                 fireStoreRepo.createUserDocumentFromAuth(user).then()
             }
             setCurrentUser(user);
-            console.log(user);
+            // console.log(user);
         });
     }, [])
 
