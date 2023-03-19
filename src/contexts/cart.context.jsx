@@ -1,4 +1,4 @@
-import {createContext, useState} from "react";
+import {createContext, useReducer} from "react";
 
 /*
     CartItem
@@ -73,6 +73,46 @@ export class Cart {
     }
 }
 
+export const CART_ACTION_TYPES = {
+    TRIGGER_CART_OPEN: 'TRIGGER_CART_OPEN',
+    MODIFY_CART_CONTENTS: 'MODIFY_CART_CONTENTS',
+    CHANGE_CARD_INDEX: 'CHANGE_CARD_INDEX'
+}
+
+const INITIAL_STATE = {
+    isCartOpen: false,
+    cart: new Cart([], (int) => int),
+    cartIndex: 0
+}
+
+// Reducer should just update state, but do not perform any business logic
+const cartReducer = (state, action) => {
+
+    console.log(action);
+    const {type, payload} = action;
+
+    switch (type) {
+        case CART_ACTION_TYPES.TRIGGER_CART_OPEN:
+            return {
+                ...state,
+                isCartOpen: payload
+            }
+        case CART_ACTION_TYPES.MODIFY_CART_CONTENTS:
+            return {
+                ...state,
+                cart: payload
+            }
+        // Private action
+        case CART_ACTION_TYPES.CHANGE_CARD_INDEX:
+            return {
+                ...state,
+                cartIndex: payload
+            }
+        default:
+            throw new Error(`Unhandled type ${type} in cartReducer`);
+    }
+}
+
 export const CartContext = createContext({
     isCartOpen: false,
     setIsCartOpen: () => {},
@@ -82,11 +122,36 @@ export const CartContext = createContext({
 
 export const CartProvider = ({children}) => {
 
-    const [,setCartState] = useState(0);
-    const defaultCart = new Cart([], setCartState);
+    const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE, () => {
+        const forceRenderCart = (numItems) => {
+            dispatch({
+                type: CART_ACTION_TYPES.CHANGE_CARD_INDEX,
+                payload: numItems
+            })
+        }
+        return {
+            isCartOpen: false,
+            cart: new Cart([], forceRenderCart),
+            cartIndex: 0
+        }
+    });
 
-    const [isCartOpen, setIsCartOpen] = useState(false);
-    const [cart, setCart] = useState(defaultCart);
+    const {isCartOpen, cart} = state;
+
+    const setIsCartOpen = (boolean) => {
+        dispatch({
+            type: CART_ACTION_TYPES.TRIGGER_CART_OPEN,
+            payload: boolean
+        })
+    }
+
+    const setCart = (cart) => {
+        dispatch({
+            type: CART_ACTION_TYPES.MODIFY_CART_CONTENTS,
+            payload: cart
+        })
+    }
+
     const value = {isCartOpen, setIsCartOpen, cart, setCart};
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
