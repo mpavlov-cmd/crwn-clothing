@@ -8,11 +8,8 @@ import {CartDropdownContainer, CartItems, EmptyMessage} from "./cart-dropdown.st
 
 const CartDropdown = () => {
 
-    const {cart} = useContext(CartContext);
+    const {cartItems, setIsCartOpen, cartCount} = useContext(CartContext);
     const navigate = useNavigate();
-    const {setIsCartOpen} = useContext(CartContext);
-
-    const numOfItemsInCart = cart.listItems().length;
 
     const goToCheckoutHandler = () => {
         navigate('/checkout');
@@ -23,15 +20,15 @@ const CartDropdown = () => {
         <CartDropdownContainer className='cart-dropdown-container'>
             <CartItems className='cart-items'>
                 {
-                    numOfItemsInCart ? (
-                        cart.listItems().map((item) => <CartItem key={item.id} cartItem={item} />)
+                    cartCount ? (
+                        cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
                     ) : (
                         <EmptyMessage>Your cart is empty</EmptyMessage>
                     )
                 }
             </CartItems>
             {
-                numOfItemsInCart ? (
+                cartCount ? (
                     <Button onClick={goToCheckoutHandler}>GO TO CHECKOUT</Button>
                 ) : (<Fragment/>)
             }

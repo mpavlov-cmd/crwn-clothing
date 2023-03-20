@@ -6,7 +6,7 @@ import {CheckoutContainer, CheckoutHeader, HeaderBlock, Total} from "./checkout.
 
 const Checkout = () => {
 
-    const {cart} = useContext(CartContext);
+    const {cartItems, cartTotal} = useContext(CartContext);
 
     return (
         <CheckoutContainer className='checkout-container'>
@@ -17,12 +17,12 @@ const Checkout = () => {
                 <HeaderBlock className='header-block'><span>Price</span></HeaderBlock>
                 <HeaderBlock className='header-block'><span>Remove</span></HeaderBlock>
             </CheckoutHeader>
-            {cart.listItems().map((item) => {
+            {cartItems.map((item) => {
                 return (
                     <CheckoutItem key={item.id} item={item} />
                 )
             })}
-            <Total className='total'>Total : {cart.total()}</Total>
+            <Total className='total'>Total : {cartTotal}</Total>
         </CheckoutContainer>
     )
 }

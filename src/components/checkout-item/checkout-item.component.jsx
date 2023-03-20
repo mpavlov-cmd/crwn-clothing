@@ -14,18 +14,18 @@ import {
 
 const CheckoutItem = ({item}) => {
     const {name, imageUrl, price, quantity} = item;
-    const {cart} = useContext(CartContext);
+    const {addItemToCart, removeItemToCart, clearItemFromCart} = useContext(CartContext);
 
     const incrementNumOfItemsHandler = (item) => {
-        cart.addItem(item);
+        addItemToCart(item);
     }
 
     const decrementNumOfItemsHandler = (item) => {
-        cart.removeItem(item.id);
+        removeItemToCart(item);
     }
 
     const clearItemFromCartHandler = (item) => {
-        cart.clearItem(item.id);
+        clearItemFromCart(item);
     }
 
     return (
@@ -39,7 +39,7 @@ const CheckoutItem = ({item}) => {
                 <Value className='value'>{quantity}</Value>
                 <Arrow className='arrow' onClick={() => incrementNumOfItemsHandler(item)}>&#10095;</Arrow>
             </Quantity>
-            <Price className='price'>{price}</Price>
+            <Price className='price'>{price * quantity}</Price>
             <RemoveButton
                 className='remove-button' onClick={() => clearItemFromCartHandler(item)}>&#10005;</RemoveButton>
         </CheckoutItemContainer>

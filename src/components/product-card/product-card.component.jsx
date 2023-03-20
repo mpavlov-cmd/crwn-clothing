@@ -7,10 +7,10 @@ import {Footer, FooterName, FooterPrice, ProductCardContainer} from "./product-c
 const ProductCard = ({product}) => {
 
     const {name, imageUrl, price} = product;
-    const {cart} = useContext(CartContext);
+    const {addItemToCart} = useContext(CartContext);
 
-    const addItemToCart = (product) => {
-        cart.addItem(product);
+    const addItemToCartHandler = (product) => {
+        addItemToCart(product);
     }
 
     return (
@@ -20,7 +20,8 @@ const ProductCard = ({product}) => {
                 <FooterName className='name'>{name}</FooterName>
                 <FooterPrice className='price'>{price}</FooterPrice>
             </Footer>
-            <Button buttonType={BUTTON_TYPE_CLASSES.inverted} onClick={() => addItemToCart(product)}>Add to cart</Button>
+            <Button buttonType={BUTTON_TYPE_CLASSES.inverted}
+                    onClick={() => addItemToCartHandler(product)}>Add to cart</Button>
         </ProductCardContainer>
     )
 
