@@ -5,8 +5,25 @@ import {Routes, Route} from 'react-router-dom'
 import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
+import {useEffect} from "react";
+import {fireBaseAuth, fireStoreRepo} from "./utils/firebase/firebase.utils";
+import {setCurrentUser} from "./store/user/user.action";
+import {useDispatch} from "react-redux";
 
 const App = () => {
+
+    // Dispatch never changes
+    const dispatch = useDispatch();
+
+    // Effect callback return value will be executed when component unmounts, so we return the function
+    useEffect(() => {
+        return fireBaseAuth.onUserAuthStateChanged((user) => {
+            if (user) {
+                fireStoreRepo.createUserDocumentFromAuth(user).then()
+            }
+            dispatch(setCurrentUser(user));
+        });
+    }, [dispatch])
 
     return (
         <Routes>
