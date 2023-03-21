@@ -143,13 +143,8 @@ class FireBaseRepository {
 
              }
          */
-        return collectionSnapshot.docs.reduce((accum, docSnapshot) => {
-            const {title, items} = docSnapshot.data();
-            accum[title.toLowerCase()] = items;
-            return accum;
-        }, {});
+        return collectionSnapshot.docs.map((docSnapshot) => docSnapshot.data());
     }
-
 }
 
 

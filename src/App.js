@@ -9,7 +9,7 @@ import {useEffect} from "react";
 import {fireBaseAuth, fireStoreRepo} from "./utils/firebase/firebase.utils";
 import {setCurrentUser} from "./store/user/user.action";
 import {useDispatch} from "react-redux";
-import {setCategories} from "./store/categories/categories.action";
+
 
 const App = () => {
 
@@ -26,17 +26,6 @@ const App = () => {
         });
     }, [dispatch])
 
-    // Fetch categories
-    useEffect(() => {
-
-        const getCategoriesFunction = async () => {
-            return await fireStoreRepo.getCategoriesAndDocuments();
-        }
-        // Run async function
-        getCategoriesFunction().then((categoriesAndProducts) => {
-            dispatch(setCategories(categoriesAndProducts));
-        });
-    }, [dispatch])
 
     return (
         <Routes>
