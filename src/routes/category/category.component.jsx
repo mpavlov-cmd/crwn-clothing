@@ -1,22 +1,15 @@
 import './category.styles';
 import {useParams} from "react-router-dom";
-import {useContext, useState, useEffect} from "react";
-import {CategoriesContext} from "../../contexts/categories.context";
 import ProductCard from "../../components/product-card/product-card.component";
 import {CategoryContainer, CategoryRootContainer, CategoryTitle} from "./category.styles";
+import {useSelector} from "react-redux";
+import {loadedCategoriesSelector} from "../../store/categories/categories.selector";
 
 const Category = () => {
 
     const {category} = useParams();
-    const {categories} = useContext(CategoriesContext);
-
-    // Use state so we get category products only once;
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        const receivedProductsArray = categories[category];
-        setProducts(receivedProductsArray);
-    }, [categories, category])
+    const categories = useSelector(loadedCategoriesSelector);
+    const products = categories[category];
 
     return (
         <CategoryRootContainer className='category-root-container'>
