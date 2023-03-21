@@ -1,7 +1,7 @@
 import './category.styles';
 import {useParams} from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
-import {CategoriesContext, ProductStore} from "../../contexts/categories.context";
+import {CategoriesContext} from "../../contexts/categories.context";
 import ProductCard from "../../components/product-card/product-card.component";
 import {CategoryContainer, CategoryRootContainer, CategoryTitle} from "./category.styles";
 
@@ -11,11 +11,11 @@ const Category = () => {
     const {categories} = useContext(CategoriesContext);
 
     // Use state so we get category products only once;
-    const [productStore, setProductStore] = useState(new ProductStore([]));
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        const receivedProductStore = categories.getCategoryByName(category);
-        setProductStore(receivedProductStore);
+        const receivedProductsArray = categories[category];
+        setProducts(receivedProductsArray);
     }, [categories, category])
 
     return (
@@ -25,7 +25,7 @@ const Category = () => {
             </h2>
             <CategoryContainer className='category-container'>
                 {
-                    productStore && productStore.getProductsArray().map((product) =>
+                    products && products.map((product) =>
                         <ProductCard key={product.id} product={product}/>)
                 }
             </CategoryContainer>

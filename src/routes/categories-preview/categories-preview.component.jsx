@@ -8,13 +8,12 @@ import {CategoryPreviewContainer} from "./categories-preview.styles";
 const CategoriesPreview = () => {
 
     const {categories} = useContext(CategoriesContext);
-    const categoryNames = categories.listCategoryNames()
+    const categoryNames = Object.keys(categories);
     return (
         <CategoryPreviewContainer className='category-preview-container'>
             {
                 categoryNames.map((categoryName, index) => {
-                    const categoryItems = categories.getCategoryByName(categoryName);
-                    const productsArray = categoryItems.getProductsArray();
+                    const productsArray = categories[categoryName];
                     return (
                         <CategoryPreview
                             key={categoryName + '_' + index}
