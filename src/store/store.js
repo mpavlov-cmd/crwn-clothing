@@ -6,8 +6,13 @@ import storage from "redux-persist/lib/storage"
 import {rootReducer} from "./root-reducer";
 
 // Middlewares
-const middlewares = [logger];
-const composedEnhancers = compose(applyMiddleware(...middlewares))
+// Below language trick [].filter(Boolean) only leaves values in array that are NOT boolean
+const middlewares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
+
+// Compose enhancer is defined only in case we're not in production and REDUX_DEVTOOLS ext is available
+const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
+    || compose;
+const composedEnhancers = composeEnhancer(applyMiddleware(...middlewares))
 
 // Redux persist
 const persistConfig = {
