@@ -1,13 +1,17 @@
 import {compose, createStore, applyMiddleware} from 'redux';
 import {logger} from "redux-logger";
 import {persistStore, persistReducer} from "redux-persist";
+import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage"
 
 import {rootReducer} from "./root-reducer";
 
 // Middlewares
 // Below language trick [].filter(Boolean) only leaves values in array that are NOT boolean
-const middlewares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
+const middlewares = [
+    process.env.NODE_ENV !== 'production' && logger,
+    thunk
+].filter(Boolean);
 
 // Compose enhancer is defined only in case we're not in production and REDUX_DEVTOOLS ext is available
 const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
