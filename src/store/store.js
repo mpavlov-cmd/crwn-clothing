@@ -14,7 +14,7 @@ const persistConfig = {
     key: 'root',
     storage: storage,
     // User comes from firebase
-    blacklist: ['user']
+    whitelist: ['cart']
 }
 
 const appPersistReducer = persistReducer(persistConfig, rootReducer);
