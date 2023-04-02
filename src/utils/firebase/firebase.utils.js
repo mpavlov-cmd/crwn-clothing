@@ -68,6 +68,20 @@ class FireBaseAuth {
      onUserAuthStateChanged(callback) {
         return onAuthStateChanged(this._auth, callback);
     }
+
+    getCurrentUser() {
+        return new Promise((resolve, reject) => {
+            const unsubscribe = onAuthStateChanged(
+                this._auth,
+                (userAuth) => {
+                    unsubscribe();
+                    resolve(userAuth);
+                },
+                // Optional callback in case of error
+                reject
+            )
+        })
+    }
 }
 
 class FireBaseRepository {
@@ -107,7 +121,7 @@ class FireBaseRepository {
             }
         }
 
-        return userDocRef;
+        return userSnapshot;
     }
 
     /*jshint node:true, unused:false */

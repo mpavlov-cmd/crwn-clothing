@@ -2,8 +2,9 @@ import './sign-in-form.styles';
 import FormInput from "../form-input/form-input.component";
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 import {useState} from "react";
-import {fireBaseAuth} from "../../utils/firebase/firebase.utils";
 import {ButtonsContainer, SignInContainer} from "./sign-in-form.styles";
+import {useDispatch} from "react-redux";
+import {emailSignInStart, googleSignInStart} from "../../store/user/user.action";
 
 const defaultFormFields = {
     email: '',
@@ -11,6 +12,8 @@ const defaultFormFields = {
 }
 
 const SignInForm = () => {
+
+    const dispatch = useDispatch();
 
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields
@@ -22,18 +25,7 @@ const SignInForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        try {
-            await fireBaseAuth.signInUserWithEmailAndPassword(email, password);
-            // console.log(authResult)
-        } catch (error) {
-            // console.log(error);
-            if (error.code === "auth/wrong-password") {
-                alert("Incorrect password for email");
-            } else {
-                alert("Error:" + error.message);
-            }
-        } 
-
+        dispatch(emailSignInStart(email, password));
         resetFormFields();
     }
 
@@ -44,7 +36,7 @@ const SignInForm = () => {
 
     const logGoogleUser = async (event) => {
         event.preventDefault();
-        await fireBaseAuth.signInUserWithGooglePopUp();
+        dispatch(googleSignInStart())
     }
 
     return (

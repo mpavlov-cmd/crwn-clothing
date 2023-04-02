@@ -4,7 +4,7 @@ import {fetchCategoriesFailure, fetchCategoriesSuccess} from "./categories.actio
 import {CATEGORIES_ACTION_TYPES} from "./categories.types";
 
 
-export function* fetchCategoriesAsync() {
+function* fetchCategoriesAsync() {
     try {
         // call takes function as a first argument and function params as other arguments
         // yield can be used instead of await for async function inside the generator
@@ -19,7 +19,7 @@ export function* fetchCategoriesAsync() {
     }
 }
 
-export function* onFetchCategories() {
+function* onFetchCategories() {
     // take latest will only respond to the latest action when multiple actions
     // of the same type are executed in the row
     yield takeLatest(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START, fetchCategoriesAsync)

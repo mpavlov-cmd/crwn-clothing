@@ -1,9 +1,10 @@
 import {useState} from "react";
-import {fireBaseAuth, fireStoreRepo} from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import './sign-up-form.styles'
 import Button from "../button/button.component";
 import {SignUpContainer} from "./sign-up-form.styles";
+import {useDispatch} from "react-redux";
+import {emailSignUpStart} from "../../store/user/user.action";
 
 const defaultFormFields = {
     displayName: '',
@@ -14,6 +15,7 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
 
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {displayName, email, password, confirmPassword} = formFields
 
@@ -39,13 +41,15 @@ const SignUpForm = () => {
         }
 
         try {
-            const createUserResult = await fireBaseAuth.createAuthUserWithEmailAndPassword(email, password);
-            // console.log(createUserResult);
 
-            await fireStoreRepo.createUserDocumentFromAuth(createUserResult.user, {
-                displayName: displayName
-            });
-            // console.log(storedUserRef);
+            dispatch(emailSignUpStart(email, password, displayName));
+            // const createUserResult = await fireBaseAuth.createAuthUserWithEmailAndPassword(email, password);
+            // // console.log(createUserResult);
+            //
+            // await fireStoreRepo.createUserDocumentFromAuth(createUserResult.user, {
+            //     displayName: displayName
+            // });
+            // // console.log(storedUserRef);
 
             resetFormFields();
 

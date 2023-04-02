@@ -1,21 +1,23 @@
 import {Outlet} from "react-router-dom";
 import {Fragment} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ReactComponent as CrownLogo} from "../../assets/crown.svg";
-import {fireBaseAuth} from "../../utils/firebase/firebase.utils";
 import {LogoContainer, NavigationContainer, NavLink, NavLinksContainer} from "./navigation.styles";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import {currentUserSelector} from "../../store/user/user.selector";
 import {selectIsCartOpen} from "../../store/cart/cart.selector";
+import {signOutUserStart} from "../../store/user/user.action";
 
 const Navigation = () => {
+
+    const dispatch = useDispatch();
 
     const currentUser = useSelector(currentUserSelector);
     const isCartOpen = useSelector(selectIsCartOpen);
 
     const signOutHandler = async () => {
-        await fireBaseAuth.signOutUser();
+        dispatch(signOutUserStart());
     }
 
     return (
