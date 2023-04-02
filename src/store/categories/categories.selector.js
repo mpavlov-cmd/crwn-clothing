@@ -1,11 +1,11 @@
 import {createSelector} from "reselect";
 
-const docsSelector = (state) => state.categories;
+const categoriesSelector = (state) => state.categories;
 
 export const selectCategories = createSelector(
-    [docsSelector],
+    [categoriesSelector],
     (categoriesSlice) => categoriesSlice.docs
-)
+);
 
 // Get docs as map
 export const categoriesMapSelector = createSelector(
@@ -17,3 +17,7 @@ export const categoriesMapSelector = createSelector(
     }, {}
 ));
 
+export const selectIsCategoriesLoading = createSelector(
+    [categoriesSelector],
+    (categoriesSlice) => categoriesSlice.isLoading
+);
