@@ -1,23 +1,21 @@
-import {USER_ACTION_TYPES} from "./user.types";
+import {createSlice} from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
     currentUser: null
 }
 
-export const userReducer = (state = INITIAL_STATE, action) => {
-
-    const {type, payload} = action;
-
-    switch (type) {
-        case USER_ACTION_TYPES.SET_CURRENT_USER:
-            return {
-                // Always keep previous state
-                ...state,
-                currentUser: payload
-            }
-        // In redux action is received by all reducers, so in case triggered action is not supported by userReducer
-        // there is a need to return existing state
-        default:
-            return state;
+export const userSlice = createSlice({
+    // Name will create namespace for actions
+    name: 'user',
+    initialState: INITIAL_STATE,
+    reducers: {
+        setCurrentUser(state, action) {
+            // state looks mutable, but actually reducers returns new state object (immer lib is used)
+            state.currentUser = action.payload
+        }
     }
-}
+});
+
+// Actions and reducer can be exported from the slice
+export const { setCurrentUser } = userSlice.actions;
+export const userReducer = userSlice.reducer;

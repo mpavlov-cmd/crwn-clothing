@@ -9,26 +9,24 @@ import {
     RemoveButton,
     Value
 } from "./checkout-item.styles";
-import {useDispatch, useSelector} from "react-redux";
-import {selectCartItems} from "../../store/cart/cart.selector";
-import {addItemToCart, clearItemFromCart, removeItemToCart} from "../../store/cart/cart.action";
+import {useDispatch} from "react-redux";
+import {addItemToCart, clearItemFromCart, removeItemToCart} from "../../store/cart/cart.reducer";
 
 const CheckoutItem = ({item}) => {
     const {name, imageUrl, price, quantity} = item;
 
-    const cartItems = useSelector(selectCartItems);
     const dispatch = useDispatch();
 
     const incrementNumOfItemsHandler = (item) => {
-        dispatch(addItemToCart(cartItems, item));
+        dispatch(addItemToCart(item));
     }
 
     const decrementNumOfItemsHandler = (item) => {
-        dispatch(removeItemToCart(cartItems, item));
+        dispatch(removeItemToCart(item));
     }
 
     const clearItemFromCartHandler = (item) => {
-        dispatch(clearItemFromCart(cartItems, item));
+        dispatch(clearItemFromCart(item));
     }
 
     return (

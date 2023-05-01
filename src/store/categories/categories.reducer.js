@@ -1,23 +1,19 @@
-import {CATEGORIES_ACTION_TYPES} from "./categories.types";
+import {createSlice} from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
-    docs: []
+    categories: []
 }
 
-export const categoriesReducer = (state = INITIAL_STATE, action) => {
 
-    const {type, payload} = action;
-
-    switch (type) {
-        case CATEGORIES_ACTION_TYPES.SET_CATEGORIES:
-            return {
-                // Always keep previous state
-                ...state,
-                docs: payload
-            }
-        // In redux action is received by all reducers, so in case triggered action is not supported by userReducer
-        // there is a need to return existing state
-        default:
-            return state;
+export const categoriesSlice = createSlice({
+    name: 'categories',
+    initialState: INITIAL_STATE,
+    reducers: {
+        setCategories(state, action) {
+            state.categories = action.payload
+        }
     }
-}
+})
+
+export const { setCategories } = categoriesSlice.actions;
+export const categoriesReducer = categoriesSlice.reducer;
