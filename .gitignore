@@ -2,6 +2,7 @@
 # ide specific
 .idea
 crwn-clothing.iml
+.env
 
 # dependencies
 /node_modules
@@ -24,3 +25,5 @@ crwn-clothing.iml
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Local Netlify folder
+.netlify

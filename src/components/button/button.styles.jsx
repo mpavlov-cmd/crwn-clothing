@@ -23,6 +23,16 @@ export const BaseButton = styled.button`
     color: black;
     border: 1px solid black;
   }
+  
+  &:disabled {
+    background-color: gray;
+    cursor: default;
+    
+    &:hover {
+      background-color: gray;
+      color: black;
+    }
+  }
 `
 
 export const GoogleSignInButton = styled(BaseButton)`
