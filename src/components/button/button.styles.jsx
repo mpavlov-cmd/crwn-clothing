@@ -31,6 +31,7 @@ export const BaseButton = styled.button`
     &:hover {
       background-color: gray;
       color: black;
+      border: 1px solid black;
     }
   }
 `

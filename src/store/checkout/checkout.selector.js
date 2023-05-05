@@ -1,0 +1,1 @@
+export const selectPaymentInProgress = (state) => state.checkout.paymentInProgress;
