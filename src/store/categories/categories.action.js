@@ -1,21 +1,15 @@
 import {CATEGORIES_ACTION_TYPES} from "./categories.types";
+import {createAction} from "../../utils/reducer/reducer.utils";
 
+// TODO Migrate to create action
 export const fetchCategoriesStart = () => {
-    return {
-        type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START
-    }
+    return createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START);
 }
 
 export const fetchCategoriesSuccess = (categories) => {
-    return {
-        type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS,
-        payload: categories
-    }
+    return createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS, categories);
 }
 
 export const fetchCategoriesFailure = (error) => {
-    return {
-        type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILURE,
-        payload: error
-    }
+    return createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILURE, error);
 }

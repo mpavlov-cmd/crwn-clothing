@@ -1,11 +1,9 @@
 import {CART_ACTION_TYPES} from "./cart.types";
+import {createAction} from "../../utils/reducer/reducer.utils";
 
 
 export const setIsCartOpen = (bool) => {
-    return {
-        type: CART_ACTION_TYPES.TRIGGER_CART_OPEN,
-        payload: bool
-    }
+    return createAction(CART_ACTION_TYPES.TRIGGER_CART_OPEN, bool);
 }
 
 export const addItemToCart = (cartItems, cartItemsToAdd) => {
@@ -24,10 +22,7 @@ export const clearItemFromCart = (cartItems, cartItemToClear) => {
 };
 
 const dispatchCartAction = (cartItems) => {
-    return {
-        type: CART_ACTION_TYPES.MODIFY_CART_CONTENTS,
-        payload: cartItems
-    }
+    return createAction(CART_ACTION_TYPES.MODIFY_CART_CONTENTS, cartItems);
 };
 
 // Service methods
