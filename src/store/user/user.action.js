@@ -14,7 +14,7 @@ export const emailSignUpStart = (email, password, displayName) => {
 }
 
 export const emailSignUpSuccess = (user, additionalDetails) => {
-    createAction(USER_ACTION_TYPES.EMAIL_SIGN_UP_SUCCESS, {user, additionalDetails});
+    return createAction(USER_ACTION_TYPES.EMAIL_SIGN_UP_SUCCESS, {user, additionalDetails});
 }
 
 export const emailSignInStart = (email, password) => {
@@ -30,10 +30,10 @@ export const signOutUserStart = () => {
 }
 
 export const signOutUserSuccess = () => {
-    createAction(USER_ACTION_TYPES.SIGN_OUT_USER_SUCCESS);
+    return createAction(USER_ACTION_TYPES.SIGN_OUT_USER_SUCCESS);
 }
 
 export const authOperationFailure = (error) => {
-    createAction(USER_ACTION_TYPES.AUTH_OPERATION_FAILURE, error);
+    return createAction(USER_ACTION_TYPES.AUTH_OPERATION_FAILURE, error);
 }
 
