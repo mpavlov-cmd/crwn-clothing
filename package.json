@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/redux-logger": "^3.0.9",
     "sass": "^1.62.1"
   }
 }

@@ -6,9 +6,10 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signInWithPopup,
-    signOut
+    signOut,
 } from 'firebase/auth'
 import {collection, doc, getDoc, getDocs, getFirestore, setDoc, query, writeBatch} from 'firebase/firestore'
+import {Category} from "../../store/categories/categories.types";
 
 
 class FireBaseApp {
@@ -16,7 +17,7 @@ class FireBaseApp {
     _firebaseConfig;
     _firebaseApp;
 
-    constructor(config) {
+    constructor(config: any) {
         this._firebaseConfig = config;
         this._firebaseApp = initializeApp(this._firebaseConfig)
     }
@@ -35,7 +36,7 @@ class FireBaseAuth {
     _provider;
     _auth;
 
-    constructor(auth, provider) {
+    constructor(auth: any, provider: any) {
         this._provider = provider;
         this._provider.setCustomParameters({
             prompt: "select_account"
@@ -47,14 +48,14 @@ class FireBaseAuth {
         return signInWithPopup(this._auth, this._provider);
     }
 
-    async signInUserWithEmailAndPassword(email, password) {
+    async signInUserWithEmailAndPassword(email: string, password: string) {
         if (!email || !password) {
             return;
         }
         return await signInWithEmailAndPassword(this._auth, email, password)
     }
 
-    async createAuthUserWithEmailAndPassword(email, password) {
+    async createAuthUserWithEmailAndPassword(email: string, password: string) {
         if (!email || !password) {
             return;
         }
@@ -65,7 +66,7 @@ class FireBaseAuth {
         return await signOut(this._auth);
     }
 
-     onUserAuthStateChanged(callback) {
+     onUserAuthStateChanged(callback: any) {
         return onAuthStateChanged(this._auth, callback);
     }
 
@@ -84,16 +85,33 @@ class FireBaseAuth {
     }
 }
 
+export type ObjectToAdd = {
+    title: string;
+}
+
+export type AdditionalInformation = {
+    displayName?: string;
+}
+
+export type UserData = {
+    createdAt: Date;
+    displayName: string;
+    email: string;
+}
+
 class FireBaseRepository {
 
     _firestore;
 
-    constructor(firestore) {
+    constructor(firestore: any) {
         this._firestore = firestore;
     }
 
     // func(arg = {}) sets default value
-    async createUserDocumentFromAuth(userAuth, additionalData = {}) {
+    async createUserDocumentFromAuth(
+        userAuth: any,
+        additionalData = {} as AdditionalInformation
+    ) {
         if (!userAuth) {
             return;
         }
@@ -125,7 +143,7 @@ class FireBaseRepository {
     }
 
     /*jshint node:true, unused:false */
-    async addCollectionAndDocuments(collectionKey, objectsToAdd) {
+    async addCollectionAndDocuments<T extends ObjectToAdd>(collectionKey: string, objectsToAdd: T[]): Promise<void> {
         const collectionRef = collection(this._firestore, collectionKey)
         const batch = writeBatch(this._firestore);
 
@@ -138,7 +156,7 @@ class FireBaseRepository {
         // console.log("Done!");
     }
 
-    async getCategoriesAndDocuments() {
+    async getCategoriesAndDocuments() : Promise<Category[]> {
 
         // Create a collection ref and create a query out of it
         const collectionRef = collection(this._firestore, 'categories')
@@ -157,7 +175,9 @@ class FireBaseRepository {
 
              }
          */
-        return collectionSnapshot.docs.map((docSnapshot) => docSnapshot.data());
+        return collectionSnapshot
+            .docs
+            .map((docSnapshot) => docSnapshot.data() as Category);
     }
 }
 

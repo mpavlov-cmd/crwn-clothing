@@ -1,11 +1,19 @@
-import {compose, createStore, applyMiddleware} from 'redux';
-import {logger} from "redux-logger";
-import {persistStore, persistReducer} from "redux-persist";
+import {compose, createStore, applyMiddleware, Middleware} from 'redux';
+import logger from "redux-logger";
+import {persistStore, persistReducer, PersistConfig} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from "redux-saga";
 import {rootSaga} from "./root-saga";
 
 import {rootReducer} from "./root-reducer";
+
+export type RootState = ReturnType<typeof rootReducer>
+
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+    }
+}
 
 // Middlewares
 // Saga middleware
@@ -15,15 +23,19 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [
     process.env.NODE_ENV !== 'production' && logger,
     sagaMiddleware
-].filter(Boolean);
+].filter((middleware): middleware is Middleware => Boolean(middleware));
 
 // Compose enhancer is defined only in case we're not in production and REDUX_DEVTOOLS ext is available
 const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
     || compose;
 const composedEnhancers = composeEnhancer(applyMiddleware(...middlewares))
 
+
+type ExtendedPersistConfig = PersistConfig<RootState> & {
+    whitelist: (keyof RootState)[];
+}
 // Redux persist
-const persistConfig = {
+const persistConfig: ExtendedPersistConfig = {
     key: 'root',
     storage: storage,
     // User comes from firebase
