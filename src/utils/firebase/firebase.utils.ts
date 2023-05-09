@@ -6,9 +6,9 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signInWithPopup,
-    signOut,
+    signOut, User,
 } from 'firebase/auth'
-import {collection, doc, getDoc, getDocs, getFirestore, setDoc, query, writeBatch} from 'firebase/firestore'
+import {collection, doc, getDoc, getDocs, getFirestore, setDoc, query, writeBatch, QueryDocumentSnapshot} from 'firebase/firestore'
 import {Category} from "../../store/categories/categories.types";
 
 
@@ -70,13 +70,15 @@ class FireBaseAuth {
         return onAuthStateChanged(this._auth, callback);
     }
 
-    getCurrentUser() {
+    getCurrentUser(): Promise<User> {
         return new Promise((resolve, reject) => {
             const unsubscribe = onAuthStateChanged(
                 this._auth,
                 (userAuth) => {
                     unsubscribe();
-                    resolve(userAuth);
+                    if (userAuth) {
+                        resolve(userAuth);
+                    }
                 },
                 // Optional callback in case of error
                 reject
@@ -111,7 +113,7 @@ class FireBaseRepository {
     async createUserDocumentFromAuth(
         userAuth: any,
         additionalData = {} as AdditionalInformation
-    ) {
+    ): Promise<void | QueryDocumentSnapshot<UserData>> {
         if (!userAuth) {
             return;
         }
@@ -139,7 +141,7 @@ class FireBaseRepository {
             }
         }
 
-        return userSnapshot;
+        return userSnapshot as QueryDocumentSnapshot<UserData>;
     }
 
     /*jshint node:true, unused:false */

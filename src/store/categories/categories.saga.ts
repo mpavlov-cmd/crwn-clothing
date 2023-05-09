@@ -1,4 +1,4 @@
-import {takeLatest, all, call, put} from "redux-saga/effects";
+import {takeLatest, all, call, put} from "typed-redux-saga/macro";
 import {fireStoreRepo} from "../../utils/firebase/firebase.utils";
 import {fetchCategoriesFailure, fetchCategoriesSuccess} from "./categories.action";
 import {CATEGORIES_ACTION_TYPES} from "./categories.types";
@@ -11,11 +11,11 @@ function* fetchCategoriesAsync() {
         // in case object method is used context should be passed to call method and object should be passed
         // as part of the context:
         // https://stackoverflow.com/questions/58397875/reference-to-this-is-null-in-function-called-by-redux-saga-call
-        const categoriesAndDocs = yield call([fireStoreRepo, fireStoreRepo.getCategoriesAndDocuments], );
+        const categoriesAndDocs = yield* call([fireStoreRepo, fireStoreRepo.getCategoriesAndDocuments], );
         // put is used instead of dispatch in redux-saga
-        yield put(fetchCategoriesSuccess(categoriesAndDocs));
+        yield* put(fetchCategoriesSuccess(categoriesAndDocs));
     } catch (error) {
-        yield put(fetchCategoriesFailure(error))
+        yield* put(fetchCategoriesFailure(error as Error))
     }
 }
 
