@@ -5,6 +5,6 @@ export enum CART_ACTION_TYPES {
     MODIFY_CART_CONTENTS = 'cart/MODIFY_CART_CONTENTS',
 }
 
-export  type CartItem = CategoryItem & {
+export type CartItem = CategoryItem & {
     quantity: number;
 }

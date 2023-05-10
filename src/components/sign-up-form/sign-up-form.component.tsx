@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {ChangeEvent, FormEvent, useState} from "react";
+import {AuthError} from 'firebase/auth';
 import FormInput from "../form-input/form-input.component";
 import './sign-up-form.styles'
 import Button from "../button/button.component";
@@ -23,14 +24,14 @@ const SignUpForm = () => {
         setFormFields(defaultFormFields);
     }
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         // This notation {...formFields, [name]: value} copies the original object and then overrides the value.
         // Square brackets [name]: value allow to use variable as object key
         setFormFields({...formFields, [name]: value})
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // console.log("Submit", event);
 
@@ -54,7 +55,8 @@ const SignUpForm = () => {
             resetFormFields();
 
         } catch (error) {
-            alert("Error:" + error.message);
+            const authError = error as AuthError
+            alert("Error Code: " + authError.code + "; Message: " + authError.message);
         }
     };
 

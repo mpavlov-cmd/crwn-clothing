@@ -26,8 +26,11 @@ export const DirectoryItemBodyContainer = styled.div`
   }
 `
 
+export type BackgroundImageParams = {
+    imageUrl: string;
+}
 
-export const BackgroundImage = styled.div`
+export const BackgroundImage = styled.div<BackgroundImageParams>`
   width: 100%;
   height: 100%;
   background-size: cover;

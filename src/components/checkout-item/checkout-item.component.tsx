@@ -9,25 +9,31 @@ import {
     RemoveButton,
     Value
 } from "./checkout-item.styles";
+import {CartItem} from "../../store/cart/cart.types";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCartItems} from "../../store/cart/cart.selector";
 import {addItemToCart, clearItemFromCart, removeItemToCart} from "../../store/cart/cart.action";
+import {FC} from "react";
 
-const CheckoutItem = ({item}) => {
+export type CheckoutItemParams = {
+    item: CartItem
+}
+
+const CheckoutItem: FC<CheckoutItemParams> = ({item}) => {
     const {name, imageUrl, price, quantity} = item;
 
     const cartItems = useSelector(selectCartItems);
     const dispatch = useDispatch();
 
-    const incrementNumOfItemsHandler = (item) => {
+    const incrementNumOfItemsHandler = (item: CartItem) => {
         dispatch(addItemToCart(cartItems, item));
     }
 
-    const decrementNumOfItemsHandler = (item) => {
+    const decrementNumOfItemsHandler = (item: CartItem) => {
         dispatch(removeItemToCart(cartItems, item));
     }
 
-    const clearItemFromCartHandler = (item) => {
+    const clearItemFromCartHandler = (item: CartItem) => {
         dispatch(clearItemFromCart(cartItems, item));
     }
 

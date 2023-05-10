@@ -4,14 +4,20 @@ import {Footer, FooterName, FooterPrice, ProductCardContainer} from "./product-c
 import {useDispatch, useSelector} from "react-redux";
 import {selectCartItems} from "../../store/cart/cart.selector";
 import {addItemToCart} from "../../store/cart/cart.action";
+import {CategoryItem} from "../../store/categories/categories.types";
+import {FC} from "react";
 
-const ProductCard = ({product}) => {
+export type ProductCardParams = {
+    product: CategoryItem
+}
+
+const ProductCard: FC<ProductCardParams> = ({product}) => {
 
     const {name, imageUrl, price} = product;
     const cartItems = useSelector(selectCartItems);
     const dispatch = useDispatch();
 
-    const addItemToCartHandler = (product) => {
+    const addItemToCartHandler = (product: CategoryItem) => {
         dispatch(addItemToCart(cartItems, product));
     }
 

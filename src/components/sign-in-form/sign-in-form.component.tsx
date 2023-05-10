@@ -1,7 +1,7 @@
 import './sign-in-form.styles';
 import FormInput from "../form-input/form-input.component";
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
-import {useState} from "react";
+import {ChangeEvent, FormEvent, MouseEvent, useState} from "react";
 import {ButtonsContainer, SignInContainer} from "./sign-in-form.styles";
 import {useDispatch} from "react-redux";
 import {emailSignInStart, googleSignInStart} from "../../store/user/user.action";
@@ -22,19 +22,19 @@ const SignInForm = () => {
         setFormFields(defaultFormFields);
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         dispatch(emailSignInStart(email, password));
         resetFormFields();
     }
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setFormFields({...formFields, [name]: value})
     }
 
-    const logGoogleUser = async (event) => {
+    const logGoogleUser = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         dispatch(googleSignInStart())
     }

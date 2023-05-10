@@ -1,7 +1,7 @@
 import './cart-dropdown.styles';
 import {useNavigate} from 'react-router-dom'
 import Button from "../button/button.component";
-import CartItem from "../cart-item/cart-item.component";
+import CartItemComponent from "../cart-item/cart-item.component";
 import {Fragment} from "react";
 import {CartDropdownContainer, CartItems, EmptyMessage} from "./cart-dropdown.styles";
 import {useDispatch, useSelector} from "react-redux";
@@ -25,7 +25,7 @@ const CartDropdown = () => {
             <CartItems className='cart-items'>
                 {
                     cartCount ? (
-                        cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
+                        cartItems.map((item) => <CartItemComponent key={item.id} cartItem={item} />)
                     ) : (
                         <EmptyMessage>Your cart is empty</EmptyMessage>
                     )

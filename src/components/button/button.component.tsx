@@ -1,3 +1,4 @@
+import {FC, ButtonHTMLAttributes, ReactNode} from 'react';
 import './button.styles';
 import {BaseButton, GoogleSignInButton, InvertedButton} from "./button.styles";
 
@@ -9,13 +10,13 @@ inverted
 google sign-in
  */
 
-export const BUTTON_TYPE_CLASSES = {
-    base: 'base',
-    google: 'google-sign-in',
-    inverted: 'inverted'
+export enum BUTTON_TYPE_CLASSES {
+    base = 'base',
+    google = 'google-sign-in',
+    inverted = 'inverted'
 }
 
-const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) => (
+const getButton = (buttonType = BUTTON_TYPE_CLASSES.base): typeof BaseButton => (
     // Returns property of the object based on the argument
     {
         [BUTTON_TYPE_CLASSES.base]: BaseButton,
@@ -24,7 +25,12 @@ const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) => (
     }[buttonType]
 )
 
-const Button = ({children, buttonType, ...otherProps}) => {
+export type ButtonProps = {
+    children?: ReactNode;
+    buttonType?: BUTTON_TYPE_CLASSES;
+} & ButtonHTMLAttributes<HTMLButtonElement>
+
+const Button: FC<ButtonProps> = ({children, buttonType, ...otherProps}) => {
 
     const CustomButton = getButton(buttonType);
 
