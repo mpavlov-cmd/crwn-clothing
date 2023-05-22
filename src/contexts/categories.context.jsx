@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import {fireStoreRepo} from "../utils/firebase/firebase.utils";
+import {gql, useQuery} from "@apollo/client";
 
 export class ProductStore {
 
@@ -26,12 +26,12 @@ class CategoryStore {
 
     _categories = new Map();
 
-    constructor(categoriesObject) {
-        for (const [key, value] of Object.entries(categoriesObject)) {
-            this._categories.set(key, new ProductStore(value))
+    constructor(categoriesArray) {
+        if (Array.isArray(categoriesArray)) {
+            categoriesArray.forEach(category => {
+                this._categories.set(category.title.toLowerCase(), new ProductStore(category.items))
+            });
         }
-
-        // console.log(this);
     }
 
     getCategoryByName(name) {
@@ -51,23 +51,37 @@ export const CategoriesContext = createContext({
     setCategories: () => null
 });
 
+const COLLECTIONS = gql`
+    query {
+        collections {
+            id
+            title
+            items {
+                id
+                name
+                price
+                imageUrl
+            }
+        }
+    }
+`;
+
 export const CategoriesProvider = ({children}) => {
 
+    const {loading, error, data} = useQuery(COLLECTIONS);
     const [categories, setCategories] = useState(categoryStoreInstance);
-    const value = {categories, setCategories};
 
     // Example of async func. inside useEffect
     useEffect(() => {
+        if (data) {
+            const {collections} = data;
+            const fetchedCategories = new CategoryStore(collections);
+            setCategories(fetchedCategories);
+        }
+    }, [data]);
 
-        const getCategoriesFunction = async () => {
-                return await fireStoreRepo.getCategoriesAndDocuments();
-            }
-            // Run async function
-            getCategoriesFunction().then((categoriesAndProducts) => {
-                const fetchedCategories = new CategoryStore(categoriesAndProducts)
-                setCategories(fetchedCategories);
-            });
-    }, [])
+    const value
+        = {categories, setCategories, loading, error};
 
     return <CategoriesContext.Provider value={value}>{children}</CategoriesContext.Provider>
 }
